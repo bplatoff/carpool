@@ -6,8 +6,6 @@ class Rider:
         self.rider_id = rider_id
         self.car_list = []
         self.schedule = Schedule()
-        self.wants_trade = False
-        self.trade_driver_id = -1
 
     def add_course(self, new_course):
         self.schedule.add_course(new_course)
@@ -19,9 +17,7 @@ class Rider:
         self.schedule.set_course_driver_status(course, driver_status)
 
     def request_car_driver_change(self, car_id, new_driver_id):
-        self.wants_trade = True
-        self.trade_driver_id = new_driver_id
         for car in self.car_list:
             if car_id == car.car_id:
+                car.trade_dict[self.rider_id] = (True, new_driver_id)
                 car.change_car_driver(new_driver_id)
-

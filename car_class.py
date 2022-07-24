@@ -3,6 +3,7 @@ class Car:
         self.car_id = car_id
         self.rider_list = []
         self.driver_id = driver_id
+        self.trade_dict = {driver_id: (False,)}
 
     def add_rider(self, new_rider):
         if not self.contains_rider(new_rider):
@@ -21,13 +22,14 @@ class Car:
 
     def change_car_driver(self, new_driver_id):
         consensus = True
-        for rider in self.rider_list:
-            if not rider.wants_trade:
+        for rider_id in self.trade_dict.keys():
+            if not self.trade_dict.get(rider_id)[0]:
                 consensus = False
                 print("Not all riders want a trade of driver")
-            if not rider.trade_driver_id == new_driver_id:
+            elif not self.trade_dict.get(rider_id)[1] == new_driver_id:
                 consensus = False
                 print("Riders do not agree on new driver")
 
         if consensus:
             self.driver_id = new_driver_id
+            print("New driver has been set")
